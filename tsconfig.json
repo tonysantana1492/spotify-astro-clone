@@ -9,6 +9,7 @@
       "@/components": ["src/components/*"],
       "@/icons": ["src/icons/*"],
       "@/lib": ["src/lib/*"],
+      "@/store": ["src/store/*"],
     }
   }
 }
