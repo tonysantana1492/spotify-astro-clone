@@ -2,11 +2,14 @@
 import { allPlaylists, songs } from '@/lib/data';
 import Layout from '../../layouts/Layout.astro';
 import PlayListItemCard from '@/components/PlayListItemCard.astro';
+import MusicsTable from '@/components/MusicsTable.astro'
+import { CardPlayButton } from "@/components/CardPlayButton"
 
 const { id } = Astro.params;
 
 const playlist = allPlaylists.find(playlist => playlist.id === id);
 const playListSongs = songs.filter(song => song.albumId === playlist?.albumId);
+
 ---
 
 <Layout title="Spotify Clone">
@@ -15,8 +18,6 @@ const playListSongs = songs.filter(song => song.albumId === playlist?.albumId);
         class="relative flex flex-col h-full bg-zinc-900 overflow-x-hidden"
         transition:name=`playlist ${id} box`
     >
-    <!-- PageHeader -->
-
     <header class="flex gap-8 px-6 mt-12">
         <picture class="aspect-square w-52 h-52 flex-none">
             <img
@@ -49,18 +50,25 @@ const playListSongs = songs.filter(song => song.albumId === playlist?.albumId);
             </div>
           </div>
     </header>
-    <div class="relative z-10 px-6 pt-10">
-       
-    </div>
 
-    <div 
-        class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/80 -z-10"
+    <div class="mt-6 flex-1 p-6 blur-100">      
+      <div class="pl-6 pt-6">
+        <CardPlayButton client:load id={id} size="large" />
+      </div>    
+      <section class='p-6'>
+        <MusicsTable songs={playListSongs} />
+      </section>
+    </div>
+    <div
+      class=`absolute h-full inset-0 z-[-1] bg-gradient-to-b from-context via-transparent to-zinc-900`
+      style=`--context-color:${playlist?.color.accent}E0`
     >
+      <img
+        src={playlist?.cover}
+        alt={playlist?.title}
+        class=" el-to-fade transition-all duration-500 z-[-1] absolute inset-0 mix-blend-overlay opacity-20 w-full h-full object-cover blur-md"
+      />
     </div>
 
-    </div>
+  </div>
 </Layout>
-
-<style>
-	
-</style>
